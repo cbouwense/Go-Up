@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class ExplodeEgg : MonoBehaviour
 {
+    // Spawner stuff
+    private GameObject birbSpawner;
+    private SpawnerController sc;
+
     // Birb's stuff
-    private GameObject birb;
+    [SerializeField] private GameObject birb;
     private PlayerController pc;
     private StatsController stats;
 
@@ -17,7 +21,9 @@ public class ExplodeEgg : MonoBehaviour
 
     private void Start()
     {
-        birb = GameObject.Find("Birb");
+        birbSpawner = GameObject.Find("BirbSpawner");
+        sc = birbSpawner.GetComponent<SpawnerController>();
+        birb = sc.getBirb();
 
         pc = birb.GetComponent<PlayerController>();
         stats = birb.GetComponent<StatsController>();
