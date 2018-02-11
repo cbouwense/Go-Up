@@ -35,11 +35,8 @@ public class PhysicsObject : MonoBehaviour
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         
         rb2d = GetComponent<Rigidbody2D>();
-
         anim = GetComponent<Animator>();
-
         stats = GetComponent<StatsController>();
-
         pc = GetComponent<PlayerController>();
     }
 
@@ -56,6 +53,9 @@ public class PhysicsObject : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        if (anim && tag == "Birb")
+            resetAnim();
+
         // Update y
         velocity.y += Physics2D.gravity.y * (stats.getCurrentGrav()) * Time.deltaTime;
 
@@ -77,7 +77,14 @@ public class PhysicsObject : MonoBehaviour
         move = Vector2.up * deltaPosition.y;
         Movement(move, 'y');
 
-        //anim.SetBool("grounded", grounded);
+        if (anim && tag == "Birb")
+        {
+            // Animator logic
+            anim.SetFloat("velX", velocity.x);
+            anim.SetFloat("velY", velocity.y);
+            anim.SetBool("grounded", grounded);
+        }
+
     }
 
     protected void Movement(Vector2 move, char axis)
@@ -108,8 +115,6 @@ public class PhysicsObject : MonoBehaviour
 
                     // Set grounded equal to true
                     grounded = true;
-                    // Reset amount of jumps
-                    if (pc) pc.jumpsLeft = pc.jumpsMax;
                     // Reset egg counter
                     stats.setEggCurr(stats.getEggMax());
                     // Become moveable again
@@ -140,6 +145,15 @@ public class PhysicsObject : MonoBehaviour
         if (distance != -0.01f)
             rb2d.position += move.normalized * distance;
 
+    }
+
+    public void resetAnim()
+    {
+        string[] states = { "grounded", "layEgg" };
+        for (int i = 0; i < states.Length; i++)
+        {
+            anim.SetBool(states[i], false);
+        }
     }
 
 }

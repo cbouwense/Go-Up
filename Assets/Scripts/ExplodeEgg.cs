@@ -12,6 +12,7 @@ public class ExplodeEgg : MonoBehaviour
     [SerializeField] private GameObject birb;
     private PlayerController pc;
     private StatsController stats;
+    private Animator anim;
 
     // Egg's
     private PhysicsObject po;
@@ -28,6 +29,7 @@ public class ExplodeEgg : MonoBehaviour
         pc = birb.GetComponent<PlayerController>();
         stats = birb.GetComponent<StatsController>();
         po = GetComponent<PhysicsObject>();
+        anim = GetComponent<Animator>();
         
         stats.setCurrentGrav("egg");
         stats.setMoveable(true);
@@ -46,9 +48,15 @@ public class ExplodeEgg : MonoBehaviour
             stats.setMoveable(false);
             stats.setCurrentGrav("normal");
         }
-        
-        // TODO: blast animation here
 
+        StartCoroutine(DoAnimation());
+        
+    }
+
+    IEnumerator DoAnimation()
+    {
+        anim.Play("eggsplosion");
+        yield return new WaitForSeconds(0.25f);
         Destroy(this.gameObject);
     }
 

@@ -13,14 +13,24 @@ public class RoomController : MonoBehaviour {
 
 	void Start () {
         spawner = GameObject.Find("BirbSpawner").GetComponent<SpawnerController>();
-        birb = spawner.getBirb();
-        birbStats = birb.GetComponent<StatsController>();
-
-        birbStats.setEggMax(eggCount);
+        if (spawner)
+            birb = spawner.getBirb();
+        if (birb)
+            birbStats = birb.GetComponent<StatsController>();
+        if (birbStats)
+            birbStats.setEggMax(eggCount);
 	}
 	
 	void Update () {
 		
+        // Keep trying to get the ref if you dont have it
+        if (!birb)
+            birb = spawner.getBirb();
+        if (!birbStats)
+            birbStats = birb.GetComponent<StatsController>();
+        if (birbStats)
+            birbStats.setEggMax(eggCount);
+
         // Restart Input
         if (Input.GetKey(KeyCode.R))
         {

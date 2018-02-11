@@ -5,20 +5,7 @@ using UnityEngine;
 public class PlayerController : PhysicsObject
 {
 
-    public int jumpsMax = 2;
-    public int jumpsLeft = 0;
-    private bool forceAdded = false;
-    private bool crouching = false;
-    private float knockbackTimerMax = 0.5f;
-    private float knockbackTimerRemaining = 0.0f;
     [SerializeField] private GameObject egg;
-    public bool eggOut = false;
-    
-    protected override void Start()
-    {
-        base.Start();
-        jumpsLeft = jumpsMax;
-    }
 
     private void OnEnable()
     {
@@ -32,6 +19,16 @@ public class PlayerController : PhysicsObject
         if (stats.getMoveable())
         {
             velocityX = Input.GetAxisRaw("Horizontal");
+            
+            if (velocityX > 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+            else if (velocityX < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+
             // If we haven't spawned any eggs yet, move about freely
             if (stats.getEggCurr() == stats.getEggMax())
             {
@@ -61,8 +58,12 @@ public class PlayerController : PhysicsObject
                 stats.setEggCurr(stats.getEggCurr() - 1);
                 // Dampen y movement
                 velocity.y = stats.eggJumpVelocity;
+                // Play spin animation
+                anim.SetBool("layEgg", true);
             }
         }
+
+
 
     }
 
