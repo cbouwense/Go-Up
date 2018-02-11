@@ -21,6 +21,8 @@ public class PhysicsObject : MonoBehaviour
     protected Animator anim;
     protected StatsController stats;
     protected PlayerController pc;
+    protected SoundManager sm;
+    private AudioSource audioSource;
 
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
@@ -38,6 +40,8 @@ public class PhysicsObject : MonoBehaviour
         anim = GetComponent<Animator>();
         stats = GetComponent<StatsController>();
         pc = GetComponent<PlayerController>();
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        audioSource = GameObject.Find("SoundManager").GetComponent<AudioSource>();
     }
 
     protected virtual void Update()
@@ -85,6 +89,11 @@ public class PhysicsObject : MonoBehaviour
             anim.SetBool("grounded", grounded);
         }
 
+        if (grounded && velocity.x != 0)
+        {
+            sm.PlaySound("run_sound");
+        }
+
     }
 
     protected void Movement(Vector2 move, char axis)
@@ -115,8 +124,9 @@ public class PhysicsObject : MonoBehaviour
 
                     // Set grounded equal to true
                     grounded = true;
-                    // Reset egg counter
-                    stats.setEggCurr(stats.getEggMax());
+                    // Reset egg counter (if we don't have aux eggs)
+                    if (stats.getEggCurr() <= stats.getEggMax())
+                        stats.setEggCurr(stats.getEggMax());
                     // Become moveable again
                     stats.setMoveable(true);
 

@@ -17,52 +17,71 @@ public class RoomController : MonoBehaviour {
 
 
     void Start () {
-        spawner = GameObject.Find("BirbSpawner").GetComponent<SpawnerController>();
-        if (spawner)
-            birb = spawner.getBirb();
-        if (birb)
-            birbStats = birb.GetComponent<StatsController>();
-        if (birbStats)
-            birbStats.setEggMax(eggCount);
+
+        if (SceneManager.GetActiveScene().buildIndex > 0)
+        {
+            try
+            {
+                spawner = GameObject.Find("BirbSpawner").GetComponent<SpawnerController>();
+            }
+            catch
+            {
+                Debug.Log("Spawner not found, will try again in Update()");
+            }
+
+            if (spawner)
+                birb = spawner.getBirb();
+            if (birb)
+                birbStats = birb.GetComponent<StatsController>();
+            if (birbStats)
+                birbStats.setEggMax(eggCount);
+
+            SetEggCounter();
+        }
 
         // Create a temporary reference to the current scene.
         Scene currentScene = SceneManager.GetActiveScene();
         // Retrieve the name of this scene.
         string sceneName = currentScene.name;
-
-        SetEggCounter();
+        
     }
 	
 	void Update () {
-		
-        // Keep trying to get the ref if you dont have it
-        if (!birb)
-            birb = spawner.getBirb();
-        if (!birbStats)
-            birbStats = birb.GetComponent<StatsController>();
-        if (birbStats)
-            birbStats.setEggMax(eggCount);
 
-        // Restart Input
-        if (Input.GetKey(KeyCode.R))
+        // If we're not in the main menu
+        if (SceneManager.GetActiveScene().buildIndex > 0)
         {
-            Debug.Log("Restarting level");
-            restartLevel();   
-        }
+            // Keep trying to get the ref if you dont have it
+            if (!spawner)
+                spawner = GameObject.Find("BirbSpawner").GetComponent<SpawnerController>();
+            if (!birb)
+                birb = spawner.getBirb();
+            if (!birbStats)
+                birbStats = birb.GetComponent<StatsController>();
+            if (birbStats)
+                birbStats.setEggMax(eggCount);
 
-        //Load a scene by the name "SceneName" if you press the W key.
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene("Start");
-        }
+            // Restart Input
+            if (Input.GetKey(KeyCode.R))
+            {
+                Debug.Log("Restarting level");
+                restartLevel();
+            }
+            
+            // Go to menu by pressing Esc
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene("Start");
+            }
 
-        SetEggCounter();
+            SetEggCounter();
+        }
 
     }
 
-    private void restartLevel()
+    public void restartLevel()
     {
-        spawner.respawnBirb();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void nextLevel()
     {
@@ -77,6 +96,7 @@ public class RoomController : MonoBehaviour {
 
     void SetEggCounter()
     {
-        countText.text = "Eggs Remaining: " + birbStats.getEggCurr();
+        if (countText && birbStats)
+            countText.text = "Eggs Remaining: " + birbStats.getEggCurr();
     }
 }
