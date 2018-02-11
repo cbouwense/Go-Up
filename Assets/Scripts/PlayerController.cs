@@ -47,7 +47,8 @@ public class PlayerController : PhysicsObject
             // If we're on the ground, jump normally
             if (grounded)
             {
-                velocity.y = stats.jumpVelocity; 
+                velocity.y = stats.jumpVelocity;
+                sm.PlaySound("jump_sound");
             }
             // If we are in the air and have more eggs left, spawn an egg
             else if (stats.getEggCurr() > 0)
@@ -60,6 +61,7 @@ public class PlayerController : PhysicsObject
                 velocity.y = stats.eggJumpVelocity;
                 // Play spin animation
                 anim.SetBool("layEgg", true);
+                sm.PlaySound("jump_sound");
             }
         }
 

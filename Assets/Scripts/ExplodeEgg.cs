@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ExplodeEgg : MonoBehaviour
 {
+
+    private SoundManager sm;
+
     // Spawner stuff
     private GameObject birbSpawner;
     private SpawnerController sc;
@@ -22,6 +25,9 @@ public class ExplodeEgg : MonoBehaviour
 
     private void Start()
     {
+
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+
         birbSpawner = GameObject.Find("BirbSpawner");
         sc = birbSpawner.GetComponent<SpawnerController>();
         birb = sc.getBirb();
@@ -48,7 +54,7 @@ public class ExplodeEgg : MonoBehaviour
             stats.setMoveable(false);
             stats.setCurrentGrav("normal");
         }
-
+        sm.PlaySound("egg_sound");
         StartCoroutine(DoAnimation());
         
     }
