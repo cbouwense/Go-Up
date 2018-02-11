@@ -21,6 +21,8 @@ public class PhysicsObject : MonoBehaviour
     protected Animator anim;
     protected StatsController stats;
     protected PlayerController pc;
+    protected SoundManager sm;
+    private AudioSource audioSource;
 
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
@@ -38,6 +40,8 @@ public class PhysicsObject : MonoBehaviour
         anim = GetComponent<Animator>();
         stats = GetComponent<StatsController>();
         pc = GetComponent<PlayerController>();
+        sm = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        audioSource = GameObject.Find("SoundManager").GetComponent<AudioSource>();
     }
 
     protected virtual void Update()
@@ -83,6 +87,11 @@ public class PhysicsObject : MonoBehaviour
             anim.SetFloat("velX", velocity.x);
             anim.SetFloat("velY", velocity.y);
             anim.SetBool("grounded", grounded);
+        }
+
+        if (grounded && velocity.x != 0)
+        {
+            sm.PlaySound("run_sound");
         }
 
     }
