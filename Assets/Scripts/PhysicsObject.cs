@@ -124,8 +124,9 @@ public class PhysicsObject : MonoBehaviour
 
                     // Set grounded equal to true
                     grounded = true;
-                    // Reset egg counter
-                    stats.setEggCurr(stats.getEggMax());
+                    // Reset egg counter (if we don't have aux eggs)
+                    if (stats.getEggCurr() <= stats.getEggMax())
+                        stats.setEggCurr(stats.getEggMax());
                     // Become moveable again
                     stats.setMoveable(true);
 
