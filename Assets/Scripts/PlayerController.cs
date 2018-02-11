@@ -6,10 +6,12 @@ public class PlayerController : PhysicsObject
 {
 
     [SerializeField] private GameObject egg;
+    public int eggsOut;
 
     private void OnEnable()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        eggsOut = 0;
     }
 
     protected override void ComputeVelocity()
@@ -30,7 +32,7 @@ public class PlayerController : PhysicsObject
             }
 
             // If we haven't spawned any eggs yet, move about freely
-            if (stats.getEggCurr() == stats.getEggMax())
+            if (/*stats.getEggCurr() >= stats.getEggMax()*/eggsOut == 0 || grounded)
             {
                 velocityX *= stats.getCurrentSpeed();
             }
