@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 
-    public static AudioClip runSound, jumpSound, eggSound, nextLevelSound;
+    public static AudioClip runSound, jumpSound, eggSound, nextLevelSound, pickupSound;
     static AudioSource audioSrc;
-    private float walkTimer, jumpTimer, eggTimer, nextLevelTimer;
+    private float walkTimer, jumpTimer, eggTimer, nextLevelTimer, pickupTimer;
 
     void Start()
     {
@@ -15,6 +15,7 @@ public class SoundManager : MonoBehaviour {
         jumpSound = Resources.Load<AudioClip>("jump_sound");
         eggSound = Resources.Load<AudioClip>("egg_sound");
         nextLevelSound = Resources.Load<AudioClip>("next_level_sound");
+        pickupSound = Resources.Load<AudioClip>("pickup_sound");
 
         audioSrc = gameObject.GetComponent<AudioSource>();
 
@@ -22,6 +23,7 @@ public class SoundManager : MonoBehaviour {
         jumpTimer = 0.0f;
         eggTimer = 0.0f;
         nextLevelTimer = 0.0f;
+        pickupTimer = 0.0f;
 
     }
 
@@ -63,6 +65,14 @@ public class SoundManager : MonoBehaviour {
                 {
                     audioSrc.PlayOneShot(eggSound);
                     eggTimer = 0.35f;
+                }
+                break;
+
+            case "pickup_sound":
+                if (pickupTimer <= 0)
+                {
+                    audioSrc.PlayOneShot(pickupSound);
+                    pickupTimer = 0.1f;
                 }
                 break;
 
