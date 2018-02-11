@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RoomController : MonoBehaviour {
 
@@ -11,7 +12,9 @@ public class RoomController : MonoBehaviour {
     [SerializeField] private SpawnerController spawner;
     [SerializeField] private StatsController birbStats;
 
-   
+    public Text countText;
+
+
 
     void Start () {
         spawner = GameObject.Find("BirbSpawner").GetComponent<SpawnerController>();
@@ -26,6 +29,8 @@ public class RoomController : MonoBehaviour {
         Scene currentScene = SceneManager.GetActiveScene();
         // Retrieve the name of this scene.
         string sceneName = currentScene.name;
+
+        SetEggCounter();
     }
 	
 	void Update () {
@@ -51,7 +56,8 @@ public class RoomController : MonoBehaviour {
             SceneManager.LoadScene("Start");
         }
 
-        
+        SetEggCounter();
+
     }
 
     private void restartLevel()
@@ -69,4 +75,8 @@ public class RoomController : MonoBehaviour {
         Application.Quit();
     }
 
+    void SetEggCounter()
+    {
+        countText.text = "Eggs Remaining: " + birbStats.getEggCurr();
+    }
 }
