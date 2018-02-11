@@ -11,7 +11,9 @@ public class RoomController : MonoBehaviour {
     [SerializeField] private SpawnerController spawner;
     [SerializeField] private StatsController birbStats;
 
-	void Start () {
+   
+
+    void Start () {
         spawner = GameObject.Find("BirbSpawner").GetComponent<SpawnerController>();
         if (spawner)
             birb = spawner.getBirb();
@@ -19,7 +21,12 @@ public class RoomController : MonoBehaviour {
             birbStats = birb.GetComponent<StatsController>();
         if (birbStats)
             birbStats.setEggMax(eggCount);
-	}
+
+        // Create a temporary reference to the current scene.
+        Scene currentScene = SceneManager.GetActiveScene();
+        // Retrieve the name of this scene.
+        string sceneName = currentScene.name;
+    }
 	
 	void Update () {
 		
@@ -38,7 +45,14 @@ public class RoomController : MonoBehaviour {
             restartLevel();   
         }
 
-	}
+        //Load a scene by the name "SceneName" if you press the W key.
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Start");
+        }
+
+        
+    }
 
     private void restartLevel()
     {
