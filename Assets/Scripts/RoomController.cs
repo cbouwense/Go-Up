@@ -60,9 +60,9 @@ public class RoomController : MonoBehaviour {
 
     }
 
-    private void restartLevel()
+    public void restartLevel()
     {
-        spawner.respawnBirb();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     public void nextLevel()
     {
@@ -77,6 +77,7 @@ public class RoomController : MonoBehaviour {
 
     void SetEggCounter()
     {
-        countText.text = "Eggs Remaining: " + birbStats.getEggCurr();
+        if (countText && birbStats)
+            countText.text = "Eggs Remaining: " + birbStats.getEggCurr();
     }
 }
