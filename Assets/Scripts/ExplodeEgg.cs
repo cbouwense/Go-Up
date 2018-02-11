@@ -40,6 +40,7 @@ public class ExplodeEgg : MonoBehaviour
         stats.setCurrentGrav("egg");
         stats.setMoveable(true);
         MyAddForce(initNudge);
+        pc.eggsOut++;
     }
 
     public void Explode(string type)
@@ -55,6 +56,7 @@ public class ExplodeEgg : MonoBehaviour
             stats.setCurrentGrav("normal");
         }
         sm.PlaySound("egg_sound");
+        pc.eggsOut--;
         StartCoroutine(DoAnimation());
         
     }
