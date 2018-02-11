@@ -49,4 +49,10 @@ public class RoomController : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void QuitRequest()
+    {
+        Debug.Log("Quit requested");
+        Application.Quit();
+    }
+
 }
