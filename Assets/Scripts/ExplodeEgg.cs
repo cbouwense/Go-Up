@@ -56,7 +56,7 @@ public class ExplodeEgg : MonoBehaviour
             stats.setCurrentGrav("normal");
         }
         sm.PlaySound("egg_sound");
-        pc.eggsOut--;
+        
         StartCoroutine(DoAnimation());
         
     }
@@ -64,6 +64,7 @@ public class ExplodeEgg : MonoBehaviour
     IEnumerator DoAnimation()
     {
         anim.Play("eggsplosion");
+        pc.eggsOut--;
         yield return new WaitForSeconds(0.25f);
         Destroy(this.gameObject);
     }
