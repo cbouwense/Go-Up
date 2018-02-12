@@ -130,12 +130,18 @@ public class PhysicsObject : MonoBehaviour
                     // Become moveable again
                     stats.setMoveable(true);
 
+                    if (pc)
+                        pc.eggsOut = 0;
+                    else
+                        Debug.Log("pc null");
+
                     // If we are modifying the object's y coordinate
                     if (axis == 'y')
                     {
                         groundNormal = currentNormal;
                         currentNormal.x = 0;
                     }
+
                 }
 
                 float projection = Vector2.Dot(velocity, currentNormal);
