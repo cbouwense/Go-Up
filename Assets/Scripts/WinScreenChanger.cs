@@ -4,10 +4,36 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WinScreenChanger : MonoBehaviour {
+
+    protected TimerController tc;
+    protected GameObject timerObj;
     
-	
-	// Update is called once per frame
-	void Update () {
+
+    void Start()
+    {
+        timerObj = GameObject.Find("Timer");
+        tc = timerObj.transform.GetComponent<TimerController>();
+        tc.Finish();
+    } 
+    
+  
+
+
+    // Update is called once per frame
+    void Update () {
+        try
+        {
+            timerObj = GameObject.Find("Timer");
+            tc = timerObj.GetComponent<TimerController>();
+            tc.Finish();
+        } catch
+        {
+            Debug.Log(timerObj);
+            if (timerObj == null)
+                Debug.Log("greg");
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("Start");
