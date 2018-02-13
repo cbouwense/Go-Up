@@ -73,12 +73,7 @@ public class RoomController : MonoBehaviour {
             {
                 SceneManager.LoadScene("Start");
             }
-
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
-            {
-                SceneManager.LoadScene("EndScreen");
-            }
-
+            
             SetEggCounter();
         }
 
