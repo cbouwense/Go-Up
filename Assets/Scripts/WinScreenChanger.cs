@@ -11,35 +11,62 @@ public class WinScreenChanger : MonoBehaviour {
 
     void Start()
     {
-        timerObj = GameObject.Find("Timer");
+        timerObj = GameObject.FindGameObjectWithTag("Timer");
         tc = timerObj.transform.GetComponent<TimerController>();
         tc.Finish();
-    } 
-    
-  
+
+        float t = tc.finishedTime;
+
+        if (PlayerPrefs.GetInt("canSetLeaderboard") > 0)
+        {
+            PlayerPrefs.SetInt("canSetLeaderboard", 0);
+            List<float> times = new List<float>
+            {
+                PlayerPrefs.GetFloat("leader1", -1),
+                PlayerPrefs.GetFloat("leader2", -1),
+                PlayerPrefs.GetFloat("leader3", -1)
+            };
+
+            bool hasWritten = false;
+
+
+            if (!hasWritten && (times[0] == -1 || t < times[0]))
+            {
+                times.Insert(0, t);
+                Debug.Log("Overwriting 0");
+                hasWritten = true; //shouldn't have to do this but...Unity?
+            }
+            else if (!hasWritten && (times[1] == -1 || t < times[1]))
+            {
+                times.Insert(1, t);
+                Debug.Log("Overwriting 1");
+                hasWritten = true;
+            }
+            else if (!hasWritten && (times[2] == -1 || t < times[2]))
+            {
+                times.Insert(2, t);
+                Debug.Log("Overwriting 2");
+                hasWritten = true;
+            }
+
+            PlayerPrefs.SetFloat("leader1", times[0]);
+            PlayerPrefs.SetFloat("leader2", times[1]);
+            PlayerPrefs.SetFloat("leader3", times[2]);
+        }
+
+    }
+
+
 
 
     // Update is called once per frame
     void Update () {
-        try
-        {
-            timerObj = GameObject.Find("Timer");
-            tc = timerObj.GetComponent<TimerController>();
-            tc.Finish();
-        } catch
-        {
-            Debug.Log(timerObj);
-            if (timerObj == null)
-                Debug.Log("greg");
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Menu"))
         {
             SceneManager.LoadScene("Start");
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Jump"))
         {
             SceneManager.LoadScene("Credits");
         }

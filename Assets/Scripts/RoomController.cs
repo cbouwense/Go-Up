@@ -62,22 +62,23 @@ public class RoomController : MonoBehaviour {
                 birbStats.setEggMax(eggCount);
 
             // Restart Input
-            if (Input.GetKey(KeyCode.R))
+            if (Input.GetButtonDown("Restart"))
             {
                 Debug.Log("Restarting level");
                 restartLevel();
             }
             
-            // Go to menu by pressing Esc
-            if (Input.GetKeyDown(KeyCode.Escape))
+            // Go to menu by pressing Esc or by pressing SELECT
+            if (Input.GetButtonDown("Menu"))
             {
                 SceneManager.LoadScene("Start");
             }
 
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (Input.GetKeyDown(KeyCode.KeypadPlus))
             {
-                SceneManager.LoadScene("EndScreen");
+                //SceneManager.LoadScene("EndScreen");
             }
+           
 
             SetEggCounter();
         }
