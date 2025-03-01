@@ -7,7 +7,7 @@ public class KillGreg : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D col)
     {
         //SpawnerController spawner = GameObject.Find("BirbSpawner").GetComponent<SpawnerController>();
-        RoomController rc = GameObject.Find("RoomManager").GetComponent<RoomController>();
+        RoomController rc = FindObjectOfType<RoomController>();
 
         if (col.tag == "Birb")
         {

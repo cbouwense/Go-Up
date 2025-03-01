@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : PhysicsObject
 {
-
     [SerializeField] private GameObject egg;
     public int eggsOut;
+
+    GameControls gameControls;
 
     private void OnEnable()
     {
         rb2d = GetComponent<Rigidbody2D>();
         eggsOut = 0;
+
+        gameControls = new GameControls();
+        gameControls.Gameplay.Enable();
     }
 
     protected override void ComputeVelocity()
@@ -20,8 +25,7 @@ public class PlayerController : PhysicsObject
         // Horizontal Input
         if (stats.getMoveable())
         {
-            velocityX = Input.GetAxisRaw("Horizontal");
-            
+            velocityX = gameControls.Gameplay.Movement.ReadValue<float>(); //Input.GetAxisRaw("Horizontal");
             if (velocityX > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
@@ -44,7 +48,8 @@ public class PlayerController : PhysicsObject
         }
 
         // Jumping
-        if (Input.GetButtonDown("Jump"))
+        //if (Input.GetButtonDown("Jump"))
+        if (gameControls.Gameplay.Jump.WasPressedThisFrame())
         {
             // If we're on the ground, jump normally
             if (grounded)
@@ -55,6 +60,10 @@ public class PlayerController : PhysicsObject
             // If we are in the air and have more eggs left, spawn an egg
             else if (stats.getEggCurr() > 0)
             {
+                if (groundNormal == Vector2.zero)
+                {
+                    groundNormal = Vector2.up;
+                }
                 // Spawn an egg
                 Instantiate(egg, new Vector2(transform.position.x, transform.position.y-1.5f), new Quaternion());
                 // Decrement egg counter
@@ -66,9 +75,6 @@ public class PlayerController : PhysicsObject
                 sm.PlaySound("jump_sound");
             }
         }
-
-
-
     }
 
     protected override void Update()

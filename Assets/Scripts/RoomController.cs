@@ -8,13 +8,14 @@ public class RoomController : MonoBehaviour {
 
     [SerializeField] private int eggCount;
 
-    [SerializeField] private GameObject birb;
-    [SerializeField] private SpawnerController spawner;
-    [SerializeField] private StatsController birbStats;
+    private GameObject birb;
+    private SpawnerController spawner;
+    private StatsController birbStats;
 
+    [Header("References")]
     public Text countText;
 
-
+    GameControls gameControl;
 
     void Start () {
 
@@ -43,8 +44,11 @@ public class RoomController : MonoBehaviour {
         Scene currentScene = SceneManager.GetActiveScene();
         // Retrieve the name of this scene.
         string sceneName = currentScene.name;
-        
-    }
+
+
+        gameControl = new GameControls();
+		gameControl.Gameplay.Enable();
+	}
 	
 	void Update () {
 
@@ -62,14 +66,16 @@ public class RoomController : MonoBehaviour {
                 birbStats.setEggMax(eggCount);
 
             // Restart Input
-            if (Input.GetButtonDown("Restart"))
+            //if (Input.GetButtonDown("Restart"))
+            if (gameControl.Gameplay.Restart.WasPressedThisFrame())
             {
                 Debug.Log("Restarting level");
                 restartLevel();
             }
             
             // Go to menu by pressing Esc or by pressing SELECT
-            if (Input.GetButtonDown("Menu"))
+            //if (Input.GetButtonDown("Menu"))
+            if (gameControl.Gameplay.BackToMenu.WasPressedThisFrame())
             {
                 SceneManager.LoadScene("Start");
             }
