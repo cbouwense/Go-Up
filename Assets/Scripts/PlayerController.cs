@@ -8,6 +8,8 @@ public class PlayerController : PhysicsObject
     [SerializeField] private GameObject egg;
     public int eggsOut;
 
+    readonly float DEADZONE = 0.1f;
+
     GameControls gameControls;
 
     private void OnEnable()
@@ -26,6 +28,10 @@ public class PlayerController : PhysicsObject
         if (stats.getMoveable())
         {
             velocityX = gameControls.Gameplay.Movement.ReadValue<float>(); //Input.GetAxisRaw("Horizontal");
+
+            if (Mathf.Abs(velocityX) < DEADZONE)
+                velocityX = 0;
+
             if (velocityX > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
