@@ -37,6 +37,8 @@ public class SoundManager : MonoBehaviour {
             eggTimer -= Time.deltaTime;
         if (nextLevelTimer > 0)
             nextLevelTimer -= Time.deltaTime;
+        if (pickupTimer > 0)
+            pickupTimer -= Time.deltaTime;
     }
 
     public void PlaySound(string clip)

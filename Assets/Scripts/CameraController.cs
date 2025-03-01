@@ -64,7 +64,6 @@ public class CameraController : MonoBehaviour
         //Debug.DrawLine(new Vector3(rightSnap, transform.position.y, 0), new Vector3(rightSnap, transform.position.y + 5, 0), Color.blue);
         //Debug.DrawLine(new Vector3(rightThreshold, transform.position.y, 0), new Vector3(rightThreshold, transform.position.y + 5, 0), Color.blue);
 
-        Debug.Log("player: " + player);
 
         if (leftRoomBounds < player.transform.position.x - screenWidth && rightRoomBounds > player.transform.position.x + screenWidth)
         {
