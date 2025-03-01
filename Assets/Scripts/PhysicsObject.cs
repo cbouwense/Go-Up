@@ -29,9 +29,8 @@ public class PhysicsObject : MonoBehaviour
 
     protected virtual void Start()
     {
-
-        // Ignore any contacts involving trigger colliders
-        contactFilter.useTriggers = false;
+		// Ignore any contacts involving trigger colliders
+		contactFilter.useTriggers = false;
 
         // Use layer that object is on
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
@@ -132,8 +131,6 @@ public class PhysicsObject : MonoBehaviour
 
                     if (pc)
                         pc.eggsOut = 0;
-                    else
-                        Debug.Log("pc null");
 
                     // If we are modifying the object's y coordinate
                     if (axis == 'y')

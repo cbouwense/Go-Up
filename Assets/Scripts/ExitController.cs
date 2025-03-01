@@ -8,22 +8,32 @@ public class ExitController : MonoBehaviour {
     protected TimerController tc;
     protected GameObject timerObj;
 
+    GameControls gameControl;
+    float timeSinceRoomLoad = 0;
+
     private void Start()
     {
-        timerObj = GameObject.Find("Timer");
+        gameControl = new GameControls();
+        gameControl.Gameplay.Enable();
+		timerObj = GameObject.Find("Timer");
         Destroy(timerObj);
     }
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetButtonDown("Cancel"))
+        timeSinceRoomLoad += Time.deltaTime;
+        //if (Input.GetButtonDown("Cancel"))
+        if (gameControl.Gameplay.Restart.WasPressedThisFrame() && timeSinceRoomLoad > 0.1f)
         {
             Debug.Log("Quit requested");
             Application.Quit();
         }
-        if (Input.GetButtonDown("Jump"))
+        
+        //if (Input.GetButtonDown("Jump"))
+        if (gameControl.Gameplay.Jump.WasPressedThisFrame() && timeSinceRoomLoad > 0.1f)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+			Debug.Log("Next level requested");
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
